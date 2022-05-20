@@ -1,0 +1,74 @@
+{% extends 'ProjectBody/Body.html' %}
+{% block contenid %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="col-lg-6">
+                <a style="border-radius: 0px" href="#" rel="action" data-json='{"action": "add","id":""}'
+                   class="btn btn-success sbox">
+                    <i class="fa fa-plus"></i>
+                    New
+                </a>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Ventas</h5>
+                    <p class="text-sm mb-0">
+                        List of Order
+                    </p>
+                </div>
+                <div class="table-responsive">
+                    <table  id="datatable-search" class="table table-striped"  style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Cliente</th>
+                            <th>Creador date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for order in venta %}
+                            <tr>
+                                <td class="text-sm font-weight-normal">{{ order.id }}</td>
+                                <td class="text-sm font-weight-normal">{{ order.customer.first_name }}</td>
+                                <td class="text-sm font-weight-normal">{{ order.order_date }}</td>
+                                <td>
+                                    <ul class="d-md-inline-flex list-inline">
+                                        <li><a class="btn btn-info"
+                                               rel="action" data-json='{"action":"ver","id":"{{ order.id }}"}'   target="_blank" >
+                                            <i class="fa fa-eye"></i> Visualizar
+                                        </a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="100"> <center>No existen registros</center></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block jscript %}
+    <script>
+
+        $(function () {
+            {% if messages %}
+            {% endif %}
+            {% for message in messages %}
+                swal('Información!', '{{ message }}');
+            {% endfor %}
+            $('#contenedor').on('click', 'a[rel="action"]', function () {
+                var data = $(this).data('json'),
+                    action = data.action,
+                    id = data.id;
+                    window.location = '{{ ruta }}?action=' + action + '&id=' + id;
+
+            });
+        });
+    </script>
+{% endblock %}

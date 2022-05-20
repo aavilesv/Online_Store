@@ -1,0 +1,79 @@
+{% extends 'ProjectBody/Body.html' %}
+{% load static %}
+{% block contenid %}
+ <div class="row mt-4">
+        <div class="col-12">
+           <div class="col-lg-6">
+                    <a style="border-radius: 0px" href="#" rel="action" data-json='{"action": "add","id":""}'
+                       class="btn btn-success sbox">
+                        <i class="fa fa-plus"></i>
+                        New
+                    </a>
+                </div>
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-header">
+                    <h5 class="mb-0">Productos</h5>
+                    <p class="text-sm mb-0">
+                        List  de products
+                    </p>
+                </div>
+            <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                   <table id="datatable-search" class="table table-striped"  style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Create Date</th>
+                            <th>Code</th>
+                            <th>Acción</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for art in articulo %}
+                            <tr>
+                                <td class="text-sm font-weight-normal">{{ art.name }}</td>
+                                <td class="text-sm font-weight-normal">${{ art.price }}</td>
+                                <td class="text-sm font-weight-normal">{{ art.create_date}}</td>
+                                <td class="text-sm font-weight-normal">{{ art.code}}</td>
+                                <td class="text-sm font-weight-normal">
+                                    <ul class="d-md-inline-flex list-inline">
+                                        <li><a class="btn bg-gradient-info" href="#" rel="action" data-json='{"action":"edit","id":"{{ art.id }}"}'><i class="fa fa-edit"></i> Editar</a></li> &nbsp;
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="100"> <center>No existen registros</center></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block jscript %}
+    <script>
+        $(function () {
+            {% if messages %}
+            {% endif %}
+            {% for message in messages %}
+                swal('Información!', '{{ message }}');
+            {% endfor %}
+            $('#contenedor').on('click', 'a[rel="action"]', function () {
+                var data = $(this).data('json'),
+                    action = data.action,
+                    id = data.id;
+                window.location = '{{ ruta }}?action=' + action + '&id=' + id;
+
+            });
+        });
+    </script>
+
+{% endblock %}

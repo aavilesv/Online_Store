@@ -1,0 +1,103 @@
+{% extends 'ProjectBody/Body.html' %}
+{% load static %}
+{% block contenid %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="col-lg-6">
+                <a style="border-radius: 0px" href="#" rel="action" data-json='{"action": "add","id":""}'
+                   class="btn btn-success sbox">
+                    <i class="fa fa-plus"></i>
+                    New
+                </a>
+            </div>
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-header">
+
+                    <h5 class="mb-0">Customer</h5>
+                    <p class="text-sm mb-0">
+                        List of Customer
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="datatable-search" class="table table-striped"  style="width:100%">
+                                <thead >
+                                <tr class="">
+
+                                    <th>
+                                        Identification
+                                    </th>
+                                    <th>
+                                        First name
+                                    </th>
+                                    <th>
+                                        Last Name
+                                    </th>
+                                    <th>
+                                        email
+                                    </th>
+                                    <th>
+                                        Create date
+                                    </th>
+                                    <th>
+                                        User
+                                    </th>
+                                    <th>
+                                        Acción
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for cli in cliente %}
+                                    <tr>
+
+                                        <td class="p-2 m-0">{{ cli.identification }}</td>
+                                        <td class="p-2 m-0">{{ cli.first_name }}</td>
+                                        <td class="p-2 m-0">{{ cli.last_name }}</td>
+                                        <td class="p-2 m-0">{{ cli.email }}</td>
+                                        <td class="p-2 m-0">{{ cli.create_date }}</td>
+                                        <td class="p-2 m-0">{{ cli.user.first_name }}</td>
+                                        <td class="text-sm font-weight-normal">
+                                            <br>
+                                            <ul class="d-md-inline-flex list-inline">
+                                                <li><a class="btn bg-gradient-info" href="#" rel="action" data-json='{"action":"edit","id":"{{ cli.id }}"}'><i class="fa fa-edit"></i> Editar</a></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="100"> <center>No existen registros</center></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block jscript %}
+    <script>
+
+        $(function () {
+            {% if messages %}
+            {% endif %}
+            {% for message in messages %}
+                swal('Información!', '{{ message }}');
+            {% endfor %}
+            $('#contenedor').on('click', 'a[rel="action"]', function () {
+                var data = $(this).data('json'),
+                    action = data.action,
+                    id = data.id;
+
+                window.location = '{{ ruta }}?action=' + action + '&id=' + id;
+
+            });
+        });
+    </script>
+
+{% endblock %}

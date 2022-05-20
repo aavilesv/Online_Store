@@ -1,0 +1,92 @@
+{% extends 'ProjectBody/Body.html' %}
+{% load static %}
+{% block contenid %}
+    <div class="row mt-4">
+        <div class="col-12">
+
+            <div class="card">
+                <!-- Card header -->
+                <div class="card">
+
+                    <div class="card-body">
+                        <form  method="POST" action="{{ ruta }}" onsubmit="return todo()" enctype="multipart/form-data">
+                            <div class="card-header d-flex align-items-center border-bottom py-3">
+                                <div class="text-center ms-auto">
+                                    <h5 class="mb-0">Clientes</h5>
+                                    <p class="text-sm mb-0">
+                                        Ingreso de Clientes
+                                    </p>
+                                </div>
+                                <div class="text-end ms-auto">
+
+                                    <button type="button" class="btn btn-sm bg-gradient-primary mb-0"  id="cancelar" onclick="window.location='{{ ruta }}'">
+                                        <i class="fa fa-undo"></i> Volver
+                                    </button>
+                                    <button type="submit" class="btn btn-sm bg-gradient-success mb-0" id="btn-registrar">
+                                        <i class="fas fa-plus pe-2"></i> Registar
+                                    </button>
+                                </div>
+                            </div>
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value="{{ id }}">
+                            <input type="hidden" name="action" value="{{ action }}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group has-success">
+                                        <label for="first_name" class="control-label mb-1"><span class="centroo">First Name:</span> </label>
+                                        <input id="first_name" name="first_name" type="text" class="form-control valid" data-val="true"
+                                               data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true"
+                                               aria-invalid="false" aria-describedby="cc-name"
+                                               minlength="4" maxlength="50" value ='{{ client.first_name }}' required="true" onKeyPress="return sololetras(event)">
+                                        <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-success">
+                                        <label for="last_name" class="control-label mb-1"><span class="centroo">Last name:</span> </label>
+                                        <input id="last_name" name="last_name" type="text" class="form-control valid" data-val="true"
+                                               data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true"
+                                               aria-invalid="false" aria-describedby="cc-name"
+                                               minlength="4" maxlength="50" value ='{{ client.last_name }}' required="true" onKeyPress="return sololetras(event)">
+                                        <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-success text-align-center">
+                                        <label for="identification" class="control-label mb-1">Identificación:</label>
+                                        <input id="identification" name="identification" type="text"
+                                               class="form-control cc-name valid" data-val="true"
+                                               autocomplete="cc-name" value ='{{ client.identification }}' minlength="10" maxlength="13" required="true" onKeyPress="return soloNumeros(event)">
+                                        <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email" class="control-label mb-1">E-mail:</label>
+                                        <input type="email" class="form-control " name="email" minlength="6" maxlength="50"
+                                               id="email" value ='{{ client.email }}' required="true" >
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block jscript %}
+    <script type='text/javascript'>
+        $('.chosen-select').chosen();
+        $('#Dato').click(function(){
+
+            $("input").prop('disabled', false);
+        });
+        if ('ver'=='{{ action }}' || 'elim' =='{{ action }}'){
+            $('input').prop("disabled", true);
+        }
+
+    </script>
+{% endblock %}

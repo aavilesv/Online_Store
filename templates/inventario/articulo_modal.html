@@ -1,0 +1,89 @@
+{% extends 'ProjectBody/Body.html' %}
+{% load static %}
+{% block contenid %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card">
+                    <div class="card-body">
+                        <form  method="POST" action="{{ ruta }}" onsubmit="return todo()">
+                            <div class="card-header d-flex align-items-center border-bottom py-3">
+                                <div class="text-center ms-auto">
+                                    <h5 class="mb-0">Productos</h5>
+                                    <p class="text-sm mb-0">
+                                        New Product
+                                    </p>
+                                </div>
+                                <div class="text-end ms-auto">
+
+                                    <button type="button" class="btn btn-sm bg-gradient-primary mb-0"  id="cancelar" onclick="window.location='{{ ruta }}'">
+                                        <i class="fa fa-undo"></i> Back
+                                    </button>
+                                    <button type="submit" class="btn btn-sm bg-gradient-success mb-0" id="btn-registrar">
+                                        <i class="fas fa-plus pe-2"></i> Sing in
+                                    </button>
+                                </div>
+                            </div>
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value="{{ id }}">
+                            <input type="hidden" name="action" value="{{ action }}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="form-group has-success">
+                                            <label for="name" class="control-label mb-1">Name:</label>
+                                            <input id="name" name="name" type="text" class="form-control valid" data-val="true"
+                                                   minlength="4" maxlength="50" value ='{{ articulo.name }}' required="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="form-group has-success">
+                                            <label for="create_date" class="control-label mb-1">Create Date:</label>
+                                            <input id="create_date" name="create_date" type="datetime-local" class="form-control valid" data-val="true"
+                                                   data-val-required="Please enter the name on card" placeholder="Create Date" autocomplete="cc-name" aria-required="true"
+                                                   aria-invalid="false" aria-describedby="cc-name"
+                                                   value ='{{ articulo.create_date }}' required="true">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="price" class="control-label mb-1">Price ($):</label>
+                                        <input type="text" class="form-control" name="price" minlength="1" maxlength="10"
+                                               id="price"   {% if articulo.price %} value ='{{ articulo.price }}' {% else %}
+                                               value ='0'
+                                        {% endif %} min="0" max="100" required="true" >
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="code" class="control-label mb-1">Code ($):</label>
+                                        <input type="text" class="form-control" name="code" minlength="1" maxlength="10"
+                                               id="code"   {% if articulo.precio %} value ='{{ articulo.code }}' {% else %}
+                                               value ='0'
+                                        {% endif %} min="0" max="100" required="true" >
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block jscript %}
+    <script type='text/javascript'>
+        $('#price').val($('#price').val().replace(',', '.'));
+        $("#price").numeric({
+            negative: false,
+            decimalPlaces: 2
+        });
+    </script>
+{% endblock %}
